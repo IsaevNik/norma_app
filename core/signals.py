@@ -9,10 +9,10 @@ __all__ = ['pre_save_order_signal']
 
 @receiver(pre_save, sender=Order)
 def pre_save_order_signal(sender, instance, **kwargs):
-    if not instance.pk:
+    if not instance.id:
         return
 
-    old_instance = sender.objects.get(pk=sender.pk)
+    old_instance = sender.objects.get(pk=instance.pk)
     if old_instance.status != instance.staus and instance.staus == sender.DEPOSITED:
         instance.guest.generate_enter_code()
         instance.guest.send_success()
