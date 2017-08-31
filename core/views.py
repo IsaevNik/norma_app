@@ -53,8 +53,8 @@ class CreateOrderView(CreateAPIView):
 
 class PaymentProcess(APIView):
     renderer_classes = (StaticHTMLRenderer,)
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    authentication_classes = ()
+    permission_classes = ()
 
     def get(self, request, _args, **kwargs):
         logger.info(request.GET)
