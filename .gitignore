@@ -1,0 +1,10 @@
+*.pyc
+db.sqlite3
+.idea/
+env/
+/logs/*
+!/logs/.gitkeep
+/run/*
+!/run/.gitkeep
+/static/*
+/norma/settings/local.py
