@@ -13,10 +13,10 @@ def pre_save_order_signal(sender, instance, **kwargs):
         return
 
     old_instance = sender.objects.get(pk=instance.pk)
-    if old_instance.status != instance.staus and instance.staus == sender.DEPOSITED:
+    if old_instance.status != instance.status and instance.status == sender.DEPOSITED:
         instance.guest.generate_enter_code()
         instance.guest.send_success()
 
-    elif old_instance.status != instance.staus and instance.staus == sender.DECLINED:
+    elif old_instance.status != instance.status and instance.status == sender.DECLINED:
         instance.guest.send_fail()
 
