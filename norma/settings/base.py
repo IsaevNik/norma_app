@@ -152,3 +152,6 @@ LOGGING = {
         }
     }
 }
+
+WITH_CODE_COST = 1
+WITHOUT_CODE_COST = 2

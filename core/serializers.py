@@ -1,5 +1,6 @@
 from django.http import Http404
 from rest_framework import serializers
+from django.conf import settings
 
 from core.models import Guest, PromoCode, Order
 from core.utils import payment_facade
@@ -36,9 +37,9 @@ class OrderSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         guest = attrs['guest']
         if guest.promo_code:
-            attrs['amount'] = 300 * guest.count
+            attrs['amount'] = settings.WITH_CODE_COST * guest.count
         else:
-            attrs['amount'] = 400 * guest.count
+            attrs['amount'] = settings.WITHOUT_CODE_COST * guest.count
         return attrs
 
     def get_link(self, obj):
