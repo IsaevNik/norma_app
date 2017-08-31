@@ -56,7 +56,7 @@ class PaymentProcess(APIView):
     authentication_classes = ()
     permission_classes = ()
 
-    def get(self, request, _args, **kwargs):
+    def get(self, request, *args, **kwargs):
         logger.info(request.GET)
         order_id = payment_facade.check_sign(request.GET)
         if order_id:
