@@ -2,8 +2,12 @@ from django.http import Http404
 from rest_framework import serializers
 from django.conf import settings
 
-from core.models import Guest, PromoCode, Order
+from core.exceptions import PromoterInactive
+from core.models import Guest, PromoCode, Order, Promoter
 from core.utils import payment_facade
+
+
+__all__ = ['GuestSerializer', 'OrderSerializer', 'PromoterSerializer']
 
 
 class GuestSerializer(serializers.ModelSerializer):
@@ -24,6 +28,7 @@ class GuestSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
+    KOEF = 1.0204
 
     link = serializers.SerializerMethodField(read_only=True)
 
@@ -37,10 +42,44 @@ class OrderSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         guest = attrs['guest']
         if guest.promo_code:
-            attrs['amount'] = settings.WITH_CODE_COST * guest.count
+            amount = settings.WITH_CODE_COST * guest.count
         else:
-            attrs['amount'] = settings.WITHOUT_CODE_COST * guest.count
+            amount = settings.WITHOUT_CODE_COST * guest.count
+        if amount > 300:
+            amount = round(amount/self.KOEF)
+        attrs['amount'] = amount
         return attrs
 
     def get_link(self, obj):
         return payment_facade.get_terminal(obj.amount, obj.id)
+
+
+class PromoterSerializer(serializers.ModelSerializer):
+
+    is_active = serializers.BooleanField(default=True)
+
+    class Meta:
+        model = Promoter
+        fields = ('id', 'name', 'guests_count', 'is_active', 'chat_id', 'total_payment')
+        extra_kwargs = {
+            'guests_count': {'read_only': True},
+            'name': {'read_only': True},
+            'total_payment': {'read_only': True}
+        }
+
+
+class PromoCodeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = PromoCode
+        fields = ('id', 'name', 'promoter')
+
+    @staticmethod
+    def validate_promoter(value):
+        if not value.is_active:
+            raise PromoterInactive
+        return value
+
+    @staticmethod
+    def validate_name(value):
+        return value.lower()

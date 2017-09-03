@@ -3,18 +3,22 @@ import logging
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import CreateAPIView
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer, StaticHTMLRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import PromoCode, Order
-from core.serializers import GuestSerializer, OrderSerializer
+from core.models import PromoCode, Order, Promoter
+from core.serializers import GuestSerializer, OrderSerializer, PromoterSerializer, PromoCodeSerializer
 from core.utils import payment_facade
 
 
 logger = logging.getLogger('payment')
+
+
+__all__ = ['ActivatePromoterView', 'CheckPromoCodeView', 'CreateOrderView', 'CreateGuestView',
+           'IndexView', 'PaymentProcess', 'PaymentRedirectView', 'PromoterRetrieveView']
 
 
 class CheckPromoCodeView(APIView):
@@ -30,14 +34,14 @@ class CheckPromoCodeView(APIView):
         return Response({'exist': False})
 
 
-class CreateGuestView(CreateAPIView):
+class CreateGuestView(generics.CreateAPIView):
     renderer_classes = (JSONRenderer,)
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated, )
     serializer_class = GuestSerializer
 
 
-class CreateOrderView(CreateAPIView):
+class CreateOrderView(generics.CreateAPIView):
     renderer_classes = (JSONRenderer,)
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -85,3 +89,27 @@ class IndexView(APIView):
 
     def get(self, request, *args, **kwargs):
         return redirect('https://www.facebook.com/events/1945012882434130')
+
+
+class ActivatePromoterView(generics.UpdateAPIView):
+    renderer_classes = (JSONRenderer,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PromoterSerializer
+    lookup_field = 'activate_code'
+    queryset = Promoter.objects.all()
+
+
+class PromoterRetrieveView(generics.RetrieveAPIView):
+    renderer_classes = (JSONRenderer,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PromoterSerializer
+    queryset = Promoter.objects.all()
+
+
+class CreatePromocodeView(generics.CreateAPIView):
+    renderer_classes = (JSONRenderer,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = PromoCodeSerializer

@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from core.views import CheckPromoCodeView, CreateGuestView, CreateOrderView, PaymentProcess, PaymentRedirectView, \
-    IndexView
+    IndexView, ActivatePromoterView, PromoterRetrieveView, CreatePromocodeView
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
@@ -29,4 +29,7 @@ urlpatterns = [
     url(r'^payment/$', PaymentProcess.as_view()),
     url(r'^payment/fail/$', PaymentRedirectView.as_view()),
     url(r'^payment/success/$', PaymentRedirectView.as_view()),
+    url(r'^web/promoters/(?P<activate_code>\w+)/$', ActivatePromoterView.as_view()),
+    url(r'^web/promoters/(?P<pk>\d+)/statistic/$', PromoterRetrieveView.as_view()),
+    url(r'^web/promo-codes/', CreatePromocodeView.as_view())
 ]

@@ -1,2 +1,2 @@
-export DJANGO_SETTINGS_MODULE=sdm.settings.local
+export DJANGO_SETTINGS_MODULE=norma.settings.local
 

@@ -1,14 +1,39 @@
 from django.db import models
+from django.db.models import Sum
 
 from core.utils import norma_bot, generate_code
 
-__all__ = ['PromoCode', 'Guest', 'Order']
+__all__ = ['PromoCode', 'Guest', 'Order', 'Promoter']
+
+
+class Promoter(models.Model):
+    chat_id = models.CharField(max_length=20, verbose_name='Идентификатор чата промоутера', blank=True)
+    name = models.CharField(max_length=20, verbose_name='Имя промоутера')
+    cost_by_person = models.IntegerField()
+    activate_code = models.CharField(max_length=10, verbose_name='Код активации')
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Промоутер'
+        verbose_name_plural = 'Промоутеры'
+
+    @property
+    def guests_count(self):
+        return Guest.objects.filter(
+            promo_code__promoter=self, orders__status=Order.DEPOSITED
+        ).aggregate(guests_count=Sum('count')).get('guests_count') or 0
+
+    @property
+    def total_payment(self):
+        return self.cost_by_person * self.guests_count
 
 
 class PromoCode(models.Model):
     name = models.CharField(max_length=20, unique=True, db_index=True, verbose_name='Промокод')
-    promoter_chat_id = models.CharField(max_length=20, verbose_name='Идентификатор чата промоутера')
-    promoter_name = models.CharField(max_length=20, verbose_name='Имя промоутера')
+    promoter = models.ForeignKey(Promoter, verbose_name='Промоутер', related_name='promo_codes', null=True)
 
     def __str__(self):
         return self.name
@@ -79,3 +104,4 @@ class Order(models.Model):
         order.status = Order.DEPOSITED
         order.save()
         return order
+

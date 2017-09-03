@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Guest, PromoCode, Order
+from core.models import Guest, PromoCode, Order, Promoter
 
 
 @admin.register(Guest)
@@ -10,7 +10,13 @@ class GuestAdmin(admin.ModelAdmin):
 
 @admin.register(PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'promoter_name', 'promoter_chat_id']
+    list_display = ['id', 'name']
+
+
+@admin.register(Promoter)
+class PromoterAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'chat_id', 'cost_by_person', 'is_active', 'guests_count', 'total_payment']
+    readonly_fields = ('guests_count', 'total_payment')
 
 
 @admin.register(Order)
