@@ -16,7 +16,6 @@ class PromoCodeAdmin(admin.ModelAdmin):
 @admin.register(Promoter)
 class PromoterAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'chat_id', 'cost_by_person', 'is_active', 'guests_count', 'total_payment']
-    readonly_fields = ('guests_count', 'total_payment')
 
 
 @admin.register(Order)
