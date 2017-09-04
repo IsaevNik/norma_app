@@ -67,6 +67,11 @@ class PromoterSerializer(serializers.ModelSerializer):
             'total_payment': {'read_only': True}
         }
 
+    def update(self, instance, validated_data):
+        if instance.is_active:
+            return instance
+        return super().update(instance, validated_data)
+
 
 class PromoCodeSerializer(serializers.ModelSerializer):
 

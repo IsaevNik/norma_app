@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 from core.views import CheckPromoCodeView, CreateGuestView, CreateOrderView, PaymentProcess, PaymentRedirectView, \
     IndexView, ActivatePromoterView, PromoterRetrieveView, CreatePromocodeView
@@ -33,3 +35,5 @@ urlpatterns = [
     url(r'^web/promoters/(?P<pk>\d+)/statistic/$', PromoterRetrieveView.as_view()),
     url(r'^web/promo-codes/', CreatePromocodeView.as_view())
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

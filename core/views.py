@@ -88,7 +88,7 @@ class IndexView(APIView):
     permission_classes = ()
 
     def get(self, request, *args, **kwargs):
-        return redirect('https://www.facebook.com/events/1945012882434130')
+        return Response({}, template_name='core/index.html')
 
 
 class ActivatePromoterView(generics.UpdateAPIView):
