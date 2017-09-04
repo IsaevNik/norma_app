@@ -5,7 +5,8 @@ from core.models import Guest, PromoCode, Order, Promoter
 
 @admin.register(Guest)
 class GuestAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'enter_code', 'promo_code', 'chat_id']
+    list_display = ['id', 'name', 'enter_code', 'promo_code', 'is_came']
+    search_fields = ('name', 'enter_code')
 
 
 @admin.register(PromoCode)

@@ -79,7 +79,7 @@ class PaymentRedirectView(APIView):
     permission_classes = ()
 
     def get(self, request, *args, **kwargs):
-        return redirect('https://www.facebook.com/events/1945012882434130')
+        return redirect('index')
 
 
 class IndexView(APIView):

@@ -24,7 +24,7 @@ from core.views import CheckPromoCodeView, CreateGuestView, CreateOrderView, Pay
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', IndexView.as_view()),
+    url(r'^$', IndexView.as_view(), name='index'),
     url(r'^web/check-promo-code/$', CheckPromoCodeView.as_view()),
     url(r'^web/guests/$', CreateGuestView.as_view()),
     url(r'^web/orders/$', CreateOrderView.as_view()),

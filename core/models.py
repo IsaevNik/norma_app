@@ -51,6 +51,8 @@ class Guest(models.Model):
     enter_code = models.CharField(max_length=6, null=True, blank=True, verbose_name='Код для входа')
     create_dt = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     count = models.IntegerField(default=1, verbose_name='Количество билетов')
+    is_came = models.BooleanField(default=False, verbose_name='Присутсвовал')
+    count_came = models.IntegerField(blank=True, null=True, verbose_name='Пришло человек')
 
     def __str__(self):
         return self.name
