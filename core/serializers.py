@@ -29,12 +29,13 @@ class GuestSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         guest = Guest.objects.filter(chat_id=validated_data.get('chat_id')).first()
         if guest:
-            guest.delete()
+            guest.active = False
+            guest.save()
         return super().create(validated_data)
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    KOEF = 1.0204
+    KOEF = settings.YANDEX_KOEF
 
     link = serializers.SerializerMethodField(read_only=True)
 

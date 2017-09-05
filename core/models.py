@@ -53,6 +53,7 @@ class Guest(models.Model):
     count = models.IntegerField(default=1, verbose_name='Количество билетов')
     is_came = models.BooleanField(default=False, verbose_name='Присутсвовал')
     count_came = models.IntegerField(blank=True, null=True, verbose_name='Пришло человек')
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf import settings
 
 from core.models import Guest, PromoCode, Order, Promoter
 
@@ -8,6 +9,12 @@ class GuestAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'enter_code', 'promo_code', 'is_came', 'count_came', 'count']
     search_fields = ('name', 'enter_code')
     list_editable = ('is_came', 'count_came')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if settings.ONLY_ACTIVE:
+            return qs.filter(active=True)
+        return qs
 
 
 @admin.register(PromoCode)

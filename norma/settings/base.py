@@ -113,8 +113,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MERCHAND_ID = '51227'
-SECRET1 = 'gowxko6r'
-SECRET2 = 'lbsrwwmi'
+SECRET1 = '*'
+SECRET2 = '*'
 PAYMENT_URL = 'https://www.free-kassa.ru/merchant/cash.php'
 
 NORMA_BOT_TOKEN = 'afcf3e83-42d0-4540-a26b-6d4ae820c1c8'
@@ -154,5 +154,8 @@ LOGGING = {
     }
 }
 
-WITH_CODE_COST = 1
-WITHOUT_CODE_COST = 2
+WITH_CODE_COST = 350
+WITHOUT_CODE_COST = 400
+
+YANDEX_KOEF = 1.0204
+ONLY_ACTIVE = True
