@@ -69,7 +69,7 @@ class PromoterSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if instance.is_active:
-            return instance
+            raise Http404
         return super().update(instance, validated_data)
 
 
