@@ -99,7 +99,7 @@ norma_bot = NormaBot()
 
 
 def generate_code(length):
-    alpha_num = '1234567890QWERTYUIOPASDFGHJKLZXCVBNM'
+    alpha_num = '1234567890'
 
     result = ''
     for _ in range(length):
