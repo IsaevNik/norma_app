@@ -26,6 +26,12 @@ class GuestSerializer(serializers.ModelSerializer):
             attrs['promo_code'] = promo_code
         return attrs
 
+    def create(self, validated_data):
+        guest = Guest.objects.filter(chat_id=validated_data.get('chat_id')).first()
+        if guest:
+            guest.delete()
+        return super().create(validated_data)
+
 
 class OrderSerializer(serializers.ModelSerializer):
     KOEF = 1.0204
