@@ -27,7 +27,7 @@ class GuestSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        guest = Guest.objects.filter(chat_id=validated_data.get('chat_id')).first()
+        guest = Guest.objects.filter(chat_id=validated_data.get('chat_id'), active=True).first()
         if guest:
             guest.active = False
             guest.save()
