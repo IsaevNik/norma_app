@@ -13,7 +13,7 @@ class GuestAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if settings.ONLY_ACTIVE:
-            return qs.filter(active=True)
+            return qs.filter(active=True, enter_code__isnull=False)
         return qs
 
 
