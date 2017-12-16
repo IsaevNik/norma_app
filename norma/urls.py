@@ -25,15 +25,15 @@ urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^web/check-promo-code/$', CheckPromoCodeView.as_view()),
+    # url(r'^web/check-promo-code/$', CheckPromoCodeView.as_view()),
     url(r'^web/guests/$', CreateGuestView.as_view()),
     url(r'^web/orders/$', CreateOrderView.as_view()),
     url(r'^payment/$', PaymentProcess.as_view()),
     url(r'^payment/fail/$', PaymentRedirectView.as_view()),
     url(r'^payment/success/$', PaymentRedirectView.as_view()),
-    url(r'^web/promoters/(?P<activate_code>\w+)/$', ActivatePromoterView.as_view()),
-    url(r'^web/promoters/(?P<pk>\d+)/statistic/$', PromoterRetrieveView.as_view()),
-    url(r'^web/promo-codes/', CreatePromocodeView.as_view())
+    # url(r'^web/promoters/(?P<activate_code>\w+)/$', ActivatePromoterView.as_view()),
+    # url(r'^web/promoters/(?P<pk>\d+)/statistic/$', PromoterRetrieveView.as_view()),
+    # url(r'^web/promo-codes/', CreatePromocodeView.as_view())
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
