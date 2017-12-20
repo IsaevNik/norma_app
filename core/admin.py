@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 
-from core.models import Guest, PromoCode, Order, Promoter
+from core.models import Guest, PromoCode, Order, Promoter, Event
 
 
 @admin.register(Guest)
@@ -9,6 +9,7 @@ class GuestAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'chat_id', 'enter_code', 'promo_code', 'is_came', 'count_came', 'count']
     search_fields = ('name', 'enter_code')
     list_editable = ('is_came', 'count_came')
+    list_filter = ('event', 'active')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -20,6 +21,12 @@ class GuestAdmin(admin.ModelAdmin):
 @admin.register(PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
+
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ['name', 'active']
+    list_editable = ('active', )
 
 
 @admin.register(Promoter)

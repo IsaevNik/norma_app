@@ -3,7 +3,16 @@ from django.db.models import Sum
 
 from core.utils import norma_bot, generate_code
 
-__all__ = ['PromoCode', 'Guest', 'Order', 'Promoter']
+__all__ = ['PromoCode', 'Guest', 'Order', 'Promoter', 'Event']
+
+
+class Event(models.Model):
+    name = models.CharField(max_length=64, verbose_name='Название')
+    date = models.DateField(verbose_name='Дата')
+    active = models.BooleanField(verbose_name='Текущее')
+
+    def __str__(self):
+        return self.name
 
 
 class Promoter(models.Model):
@@ -54,6 +63,8 @@ class Guest(models.Model):
     is_came = models.BooleanField(default=False, verbose_name='Присутсвовал')
     count_came = models.IntegerField(blank=True, null=True, verbose_name='Пришло человек')
     active = models.BooleanField(default=True)
+    event = models.ForeignKey(Event, null=True, blank=True,
+                              verbose_name='Мероприятие', on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name

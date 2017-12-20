@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.conf import settings
 
 from core.exceptions import PromoterInactive
-from core.models import Guest, PromoCode, Order, Promoter
+from core.models import Guest, PromoCode, Order, Promoter, Event
 from core.utils import payment_facade
 
 
@@ -24,10 +24,13 @@ class GuestSerializer(serializers.ModelSerializer):
             if not promo_code:
                 raise Http404
             attrs['promo_code'] = promo_code
+        attrs['event'] = Event.objects.filter(active=True).last()
         return attrs
 
     def create(self, validated_data):
-        guest = Guest.objects.filter(chat_id=validated_data.get('chat_id'), active=True).first()
+        guest = Guest.objects.filter(
+            chat_id=validated_data.get('chat_id'), active=True, event=validated_data['event']
+        ).first()
         if guest:
             guest.active = False
             guest.save()
