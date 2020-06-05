@@ -1,7 +1,7 @@
 certifi==2017.7.27.1
 chardet==3.0.4
 ConcurrentLogHandler==0.9.1
-Django==1.11.4
+Django==1.11.29
 django-jet==1.0.6
 djangorestframework==3.6.4
 idna==2.6
